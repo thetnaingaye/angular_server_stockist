@@ -33,14 +33,16 @@ public class SupplierDetailServlet extends HttpServlet {
     private DataSource connPool;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+            throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
         //Assume no error checks
         String supplierId = pathInfo.substring(1);
 
         try (Connection conn = connPool.getConnection()) {
 
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM stockist.suppliers where SupplierID = ?");
+            PreparedStatement ps = conn.prepareStatement
+                ("SELECT * FROM stockist.suppliers where SupplierID = ?");
             ps.setString(1, supplierId);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
